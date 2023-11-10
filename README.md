@@ -6,6 +6,22 @@ Official code for "Illumination-guided RGBT Object Detection with Inter- and Int
 ## Installation
 Please refer to <https://github.com/open-mmlab/mmdetection/tree/2.x>
 
+## Results
+Below is the ablation study for our TINet on FLIR-aligned (the training and testing splits follow the official splits). 
+Note that in our paper the results are given by a different train/test data distribution. 
+If you intend to include our results, please make sure that the data distribution is aligned.
+
+|     IGFW    |     Inter-MA    |     Intra-MA    |     AP50     |     mAP      |
+|-------------|-----------------|-----------------|--------------|--------------|
+|             |                 |                 |     75.19    |     35.88    |
+|     √       |                 |                 |     74.94    |     36.41    |
+|             |     √           |                 |     75.00    |     36.21    |
+|             |                 |     √           |     74.96    |     36.07    |
+|     √       |     √           |                 |     75.27    |     36.70    |
+|     √       |                 |     √           |     75.42    |     36.61    |
+|             |     √           |     √           |     75.32    |     36.06    |
+|     √       |     √           |     √           |     76.07    |     36.54    |
+
 ## Citation
 ````
 @ARTICLE{tinet,
