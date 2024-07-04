@@ -22,6 +22,9 @@ If you intend to include our results, please make sure that the data distributio
 |             |     √           |     √           |     75.32    |     36.06    |
 |     √       |     √           |     √           |     76.07    |     36.54    |
 
+## Dataset
+For KAIST dataset we use the sanitized annotation provided by Li et al in *Illumination-aware faster RCNN for robust multispectral pedestrian detection*. We upload it to our [google drive](https://drive.google.com/file/d/1De0_xBM74CdsZW8a7eUVrF4RUtl1Oxx6/view?usp=drive_link) since the original link is invalid. The FLIR-align dataset can be downloaded at (http://shorturl.at/ahAY4), which is provided by Zhang et al in *Multispectral Fusion for Object Detection with Cyclic Fuse-and-Refine Blocks*.
+
 ## Citation
 ````
 @ARTICLE{tinet,
