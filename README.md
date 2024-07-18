@@ -25,6 +25,51 @@ If you intend to include our results, please make sure that the data distributio
 ## Dataset
 For KAIST dataset we use the sanitized annotation provided by Li et al in *Illumination-aware faster RCNN for robust multispectral pedestrian detection*. We upload it to our [google drive](https://drive.google.com/file/d/1De0_xBM74CdsZW8a7eUVrF4RUtl1Oxx6/view?usp=drive_link) since the original link is invalid. The FLIR-align dataset can be downloaded at (http://shorturl.at/ahAY4), which is provided by Zhang et al in *Multispectral Fusion for Object Detection with Cyclic Fuse-and-Refine Blocks*.
 
+### DayNight Labels
+We insert the DayNight labels into the filename of every visible image in the training set. "1" stands for daytime images and "3" stands for nighttime images. During image loading, we read the filename and extract the label. Below is the script that we rename the FLIR-aligned training set. Note that it runs on a Windows system.
+```
+def ill_rename():
+    img_files = glob.glob('F:\\data\\FLIR\\FLIR_aligned\\format\\train\\visible\\*.jpeg')
+    xml_files = glob.glob('F:\\data\\FLIR\\FLIR_aligned\\format\\train\\annotation\\*.xml')
+    day_ids = list(range(0, 70)) + list(range(84, 2245)) + list(range(2367, 3476)) + list(range(3583, 3675)) + \
+              list(range(4085, 4129))
+    night_ids = list(range(70, 84)) + list(range(2245, 2367)) + list(range(3476, 3583)) + list(range(3675, 4085))
+
+    for day_id in day_ids:
+        img_file = img_files[day_id]
+        xml_file = xml_files[day_id]
+        filename = os.path.split(xml_file)[-1]
+        new_filename = filename[:4]+'0'+filename[4:]
+        fname = os.path.splitext(filename)[0]
+        os.rename(img_file, os.path.join('train', 'visible', new_filename.replace('.xml', '.jpeg')))
+        os.rename(os.path.join('train', 'thermal', filename.replace('.xml', '.jpeg')),
+                  os.path.join('train', 'thermal', new_filename.replace('.xml', '.jpeg')))
+        xml = os.path.join('train', 'annotation', fname+'.xml')
+        tree = ET.parse(xml)
+        root = tree.getroot()
+        filename = root[3]
+        filename.text = new_filename.replace('.xml', '.jpeg')
+        tree.write(xml)
+        os.rename(xml, os.path.join('train', 'annotation', new_filename))
+
+    for night_id in night_ids:
+        img_file = img_files[night_id]
+        xml_file = xml_files[night_id]
+        filename = os.path.split(xml_file)[-1]
+        new_filename = filename[:4]+'3'+filename[4:]
+        fname = os.path.splitext(filename)[0]
+        os.rename(img_file, os.path.join('train', 'visible', new_filename.replace('.xml', '.jpeg')))
+        os.rename(os.path.join('train', 'thermal', filename.replace('.xml', '.jpeg')),
+                  os.path.join('train', 'thermal', new_filename.replace('.xml', '.jpeg')))
+        xml = os.path.join('train', 'annotation', fname+'.xml')
+        tree = ET.parse(xml)
+        root = tree.getroot()
+        filename = root[3]
+        filename.text = new_filename.replace('.xml', '.jpeg')
+        tree.write(xml)
+        os.rename(xml, os.path.join('train', 'annotation', new_filename))
+```
+
 ## Citation
 ````
 @ARTICLE{tinet,
